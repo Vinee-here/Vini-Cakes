@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vini Cakes - Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #ffeef7 0%, #ffe0f0 50%, #ffb3d9 100%);
+            min-height: 100vh;
+        }
+
+        /* Floating emojis */
+        .floating-emojis {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: float 20s infinite linear;
+            opacity: 0.15;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.15;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 25px rgba(255, 105, 180, 0.2);
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yMDAgMzgwQzMwNS4wOTcgMzgwIDM5MCAyOTUuMDk3IDM5MCAyMDBDMzkwIDEwNC45MDMgMzA1LjA5NyAyMCAyMDAgMjBDOTQuOTAzIDIwIDEwIDEwNC45MDMgMTAgMjAwQzEwIDI5NS4wOTcgOTQuOTAzIDM4MCAyMDAgMzgwWiIgZmlsbD0iIzVEMkMwNyIvPgo8cGF0aCBkPSJNMzIwIDEzMEMzNTAgMTMwIDM2MCAyMDAgMjkwIDIwMEMyNjAgMjAwIDIzMCAxODAgMjIwIDE2MEMyMTAgMTQwIDI0MCAxMjAgMjgwIDEyMEMzMDAgMTIwIDMxNSAxMjUgMzIwIDEzMFoiIGZpbGw9IiNGRkZGRkYiIGZpbGwtb3BhY2l0eT0iMC45Ii8+CjxwYXRoIGQ9Ik0yOTAgMjAwQzMwMCAyMjAgMjkwIDI0MCAyNzAgMjUwQzI1MCAyNjAgMjIwIDI1MCAyMTAgMjMwQzIwMCAyMTAgMjEwIDE5MCAyMzAgMTgwQzI1MCAxNzAgMjgwIDE4MCAyOTAgMjAwWiIgZmlsbD0iI0ZGRkZGRiIgZmlsbC1vcGFjaXR5PSIwLjciLz4KPHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeD0iMTAwIiB5PSIyODAiPgo8dGV4dCB4PSIwIiB5PSI0MCIgZm9udC1mYW1pbHk9IkNhdmVhdCwgY3Vyc2l2ZSIgZm9udC1zaXplPSI0OCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGNjk0MiI+VmluaTwvdGV4dD4KPHR5cGUgeD0iMCIgeT0iODAiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSIyNCIgZm9udC13ZWlnaHQ9IjQwMCIgZmlsbD0iI0ZGRkZGRiI+Q2FrZXM8L3RleHQ+Cjwvc3ZnPgo8L3N2Zz4=');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            border: 2px solid rgba(214, 51, 132, 0.3);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Fallback if logo image doesn't load */
+        .logo-fallback {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #5D2C07, #8B4513);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #d63384;
+            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3);
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            font-family: 'Caveat', cursive;
+        }
+
+        .brand-text {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #d63384, #ff69b4, #ffb3d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(214, 51, 132, 0.3);
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, #d63384, #ff69b4);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(214, 51, 132, 0.4);
+        }
+
+        /* Main Content */
+        .menu-container {
+            position: relative;
+            z-index: 5;
+            padding: 8rem 2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .menu-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .menu-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            background: linear-gradient(45deg, #d63384, #ff69b4, #ffb3d9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: slideInFromTop 1s ease-out;
+        }
+
+        @keyframes slideInFromTop {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-subtitle {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: #8B4B8C;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Menu Sections */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .menu-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.2);
+            border: 1px solid rgba(255, 105, 180, 0.1);
+            transition: all 0.4s ease;
+            animation: slideInFromBottom 1s ease-out;
+        }
+
+        @keyframes slideInFromBottom {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-section:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(255, 105, 180, 0.3);
+        }
+
+        .section-header {
+            background: linear-gradient(45deg, #d63384, #ff69b4);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(214, 51, 132, 0.3);
+        }
+
+        .menu-items {
+            space-y: 1rem;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(214, 51, 132, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 105, 180, 0.05);
+            padding-left: 1rem;
+            padding-right: 1rem;
+            border-radius: 10px;
+        }
+
+        .item-name {
+            font-weight: 500;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .item-prices {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .price-group {
+            text-align: center;
+        }
+
+        .weight {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .price {
+            font-weight: 600;
+            color: #d63384;
+            font-size: 1.1rem;
+        }
+
+        .seasonal {
+            color: #ff69b4;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        /* Special Sections */
+        .pastry-section {
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(214, 51, 132, 0.1));
+        }
+
+        .special-section {
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.2), rgba(255, 105, 180, 0.1));
+        }
+
+        .single-price {
+            font-weight: 600;
+            color: #d63384;
+            font-size: 1.2rem;
+        }
+
+        /* Notes Section */
+        .notes-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-left: 5px solid #d63384;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.2);
+        }
+
+        .notes-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #d63384;
+            margin-bottom: 1rem;
+        }
+
+        .note-item {
+            margin-bottom: 0.8rem;
+            color: #555;
+            line-height: 1.6;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .note-item::before {
+            content: '•';
+            color: #d63384;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Payment Section */
+        .payment-section {
+            background: linear-gradient(45deg, #d63384, #ff69b4);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            box-shadow: 0 15px 35px rgba(214, 51, 132, 0.3);
+        }
+
+        .payment-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .payment-icon {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1rem;
+            font-size: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Order Button */
+        .order-section {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .order-btn {
+            background: linear-gradient(45deg, #d63384, #ff69b4);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 35px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(214, 51, 132, 0.4);
+        }
+
+        .order-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(214, 51, 132, 0.5);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-title {
+                font-size: 2.5rem;
+            }
+            
+            .item-prices {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .menu-container {
+                padding: 12rem 1rem 4rem;
+            }
+
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .logo-fallback {
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
+            }
+
+            .brand-text {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Emojis -->
+    <div class="floating-emojis" id="floatingEmojis"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-section">
+                <!-- Logo will be inserted here - replace the background-image URL with your actual logo path -->
+                <div class="logo" id="logoContainer">
+                    <!-- Fallback content if logo doesn't load -->
+                    <div class="logo-fallback" style="display: none;">VC</div>
+                </div>
+                <div class="brand-text">Vini Cakes</div>
+            </div>
+            <a href="index.html" class="back-btn">← Back to Home</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="menu-container">
+        <div class="menu-header">
+            <h1 class="menu-title">Our Menu</h1>
+            <p class="menu-subtitle">Fresh • Delicious • Made with Love</p>
+        </div>
+
+        <div class="menu-grid">
+            <!-- Regular Counter Cakes -->
+            <div class="menu-section">
+                <div class="section-header">🍰 REGULAR COUNTER CAKE</div>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">Pineapple</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹380</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹750</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Blueberry</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹380</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹750</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Butter Scotch</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹380</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹750</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Black Forest</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹380</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹750</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">White Forest</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹440</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹880</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Swiss Chocolate</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹450</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹900</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Oreo Chocolate</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹450</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹900</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Mocha Walnut</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹480</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹960</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Chocolate Crunch</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹480</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹960</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Chocolate Truffle</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹480</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹960</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premium Cakes -->
+            <div class="menu-section">
+                <div class="section-header">🍫 PREMIUM CAKES</div>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">Chocolate Fruit</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹500</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1000</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Chocolate Temptation</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹500</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1000</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Chocolate Chocochips</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹500</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1000</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Roasted Almond</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹500</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1000</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Mix Fruit</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹500</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1000</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Chocolate Fantasy <span class="seasonal">(Seasonal)</span></span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹550</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1100</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Red Velvet</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹550</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1100</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Royal Chocolate</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹550</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1100</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Swiss Truffle</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹550</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1100</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Triple Chocolate</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹550</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1100</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Mango <span class="seasonal">(Seasonal)</span></span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹600</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1200</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Dutch Truffle</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹660</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1320</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Rasmalai</span>
+                        <div class="item-prices">
+                            <div class="price-group">
+                                <div class="weight">500 gm</div>
+                                <div class="price">₹660</div>
+                            </div>
+                            <div class="price-group">
+                                <div class="weight">1 Kg</div>
+                                <div class="price">₹1320</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pastries -->
+            <div class="menu-section pastry-section">
+                <div class="section-header">🧁 PASTRY</div>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">Chocolate Truffle</span>
+                        <span class="single-price">₹70</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Swiss Chocolate</span>
+                        <span class="single-price">₹70</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Pineapple</span>
+                        <span class="single-price">₹70</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Blueberry</span>
+                        <span class="single-price">₹70</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Butter Scotch</span>
+                        <span class="single-price">₹70</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">White Forest</span>
+                        <span class="single-price">₹70</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Black Forest</span>
+                        <span class="single-price">₹70</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Mix Fruit</span>
+                        <span class="single-price">₹80</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Dutch Truffle</span>
+                        <span class="single-price">₹80</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Red Velvet</span>
+                        <span class="single-price">₹80</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Mango <span class="seasonal">(Seasonal)</span></span>
+                        <span class="single-price">₹80</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Special Cakes -->
+            <div class="menu-section special-section">
+                <div class="section-header">🎂 SPECIAL CAKE</div>
+                <div class="menu-items">
+                    <div class="menu-item">
+                        <span class="item-name">Photo Cake</span>
+                        <span class="single-price">₹1000</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Doll Cake</span>
+                        <span class="single-price">₹1350</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Customize Cake</span>
+                        <span class="single-price">₹1350</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Semi Fondant Cake</span>
+                        <span class="single-price">₹1500</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="item-name">Full Fondant Cake</span>
+                        <span class="single-price">₹2000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Important Notes -->
+        <div class="notes-section">
+            <h3 class="notes-title">Important Notes</h3>
+            <div class="note-item">All cakes are freshly baked with premium ingredients</div>
+            <div class="note-item">Advance booking required for special cakes (24-48 hours)</div>
+            <div class="note-item">Custom designs and flavors available on request</div>
+            <div class="note-item">Free home delivery within 5km radius for orders above ₹500</div>
+            <div class="note-item">Seasonal flavors available during specific months</div>
+        </div>
+
+       
+        <!-- Order Section -->
+        <div class="order-section">
+            <button class="order-btn" onclick="orderNow()">🍰 Order Now</button>
+        </div>
+    </div>
+
+    <script>
+        // Floating emojis animation
+        function createFloatingEmojis() {
+            const emojis = ['🍰', '🧁', '🎂', '🍪', '🍫', '🍬', '🎈', '✨', '💖', '🌟'];
+            const container = document.getElementById('floatingEmojis');
+            
+            setInterval(() => {
+                const emoji = document.createElement('div');
+                emoji.className = 'emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + '%';
+                emoji.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                emoji.style.fontSize = (Math.random() * 1 + 1) + 'rem';
+                
+                container.appendChild(emoji);
+                
+                setTimeout(() => {
+                    if (emoji.parentNode) {
+                        emoji.parentNode.removeChild(emoji);
+                    }
+                }, 25000);
+            }, 3000);
+        }
+
+        // Order function
+        function orderNow() {
+            // Replace with your number in international format (no + or spaces)
+    const phoneNumber = "9076370678"; // Your WhatsApp number
+
+    // Optional message
+    const message = "Hi, I want to place an order.";
+
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(message);
+
+    // WhatsApp link
+    const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+    // Open in new tab
+    window.open(url, '_blank');
+        }
+
+        // Logo loading with fallback
+        function setupLogo() {
+            const logoContainer = document.getElementById('logoContainer');
+            const logoFallback = logoContainer.querySelector('.logo-fallback');
+            
+            // You can replace this with your actual logo URL
+            const logoImg = new Image();
+            logoImg.onload = function() {
+                logoContainer.style.backgroundImage = `url('${logoImg.src}')`;
+                logoContainer.style.backgroundSize = 'contain';
+                logoContainer.style.backgroundRepeat = 'no-repeat';
+                logoContainer.style.backgroundPosition = 'center';
+            };
+            logoImg.onerror = function() {
+                // Show fallback if logo fails to load
+                logoFallback.style.display = 'flex';
+                logoContainer.style.backgroundImage = 'none';
+            };
+            
+            // Set your logo path here
+            logoImg.src = 'assets/logo.jpeg'; // Replace with actual logo path
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingEmojis();
+            setupLogo();
+        });
+    </script>
+</body>
+</html>
